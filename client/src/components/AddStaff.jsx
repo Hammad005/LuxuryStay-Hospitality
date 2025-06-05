@@ -31,7 +31,7 @@ import {
 } from "@/components/ui/select";
 import { staffStore } from "@/store/staffStore";
 const AddStaff = () => {
-  const { registerStaff, staffLoading, resetSuccess } = staffStore();
+  const { registerStaff, staffLoading, resetSuccess, staff } = staffStore();
   const [data, setData] = useState({
     name: "",
     email: "",
@@ -98,37 +98,40 @@ const AddStaff = () => {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-       const result = await registerStaff(data); // Get the success value here
+      const result = await registerStaff(data); // Get the success value here
 
-    if (result?.success) {
-      // Reset the form
-      setData({
-        name: "",
-        email: "",
-        contact: "",
-        education: "",
-        gender: "",
-        dob: "",
-        role: "",
-        salary: "",
-        password: "",
-      });
-      setConPassword("");
-      setShowPassword(false);
-      setShowConPassword(false);
-      setErrors({});
+      if (result?.success) {
+        // Reset the form
+        setData({
+          name: "",
+          email: "",
+          contact: "",
+          education: "",
+          gender: "",
+          dob: "",
+          role: "",
+          salary: "",
+          password: "",
+        });
+        setConPassword("");
+        setShowPassword(false);
+        setShowConPassword(false);
+        setErrors({});
         resetSuccess(); // Reset success state
-    }
-       
+      }
     }
   };
   const roles = [
-      { name: "General Manager", icon: BriefcaseBusiness },
-      { name: "Receptionist", icon: HeartHandshake },
-      { name: "Marketing Manager", icon: BadgeDollarSign },
-      { name: "Security Manager", icon: ShieldCheck },
-      { name: "Housekeeping Manager", icon: BrushCleaning },
-    ];
+    {
+      name: "General Manager",
+      icon: BriefcaseBusiness,
+      show: staff?.role === "Admin",
+    },
+    { name: "Receptionist", icon: HeartHandshake, show: true },
+    { name: "Marketing Manager", icon: BadgeDollarSign, show: true },
+    { name: "Security Manager", icon: ShieldCheck, show: true },
+    { name: "Housekeeping Manager", icon: BrushCleaning, show: true },
+  ];
   return (
     <>
       <div className="p-4 bg-background rounded-lg border border-primary/80 flex flex-col items-center justify-center min-h-[300px]">
@@ -210,8 +213,10 @@ const AddStaff = () => {
             </div>
             <div className="flex gap-4 w-full">
               <div className="flex flex-col gap-1 w-full min-w-0">
-                <Select onValueChange={(e) => setData({ ...data, gender: e })} 
-                    value={data.gender}>
+                <Select
+                  onValueChange={(e) => setData({ ...data, gender: e })}
+                  value={data.gender}
+                >
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Choose gender" />
                   </SelectTrigger>
@@ -281,17 +286,22 @@ const AddStaff = () => {
 
             <div className="flex gap-4 w-full">
               <div className="flex flex-col gap-1 w-full min-w-0">
-                <Select onValueChange={(e) => setData({ ...data, role: e })}
-                    value={data.role}>
+                <Select
+                  onValueChange={(e) => setData({ ...data, role: e })}
+                  value={data.role}
+                >
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Choose role" />
                   </SelectTrigger>
                   <SelectContent>
-                    {roles.map(role => (
-                      <SelectItem value={role.name}>
-                        <role.icon/> {role.name}
-                      </SelectItem>
-                    ))}
+                    {roles.map(
+                      (role) =>
+                        role.show && (
+                          <SelectItem value={role.name} key={role.name}>
+                            <role.icon /> {role.name}
+                          </SelectItem>
+                        )
+                    )}
                   </SelectContent>
                 </Select>
 

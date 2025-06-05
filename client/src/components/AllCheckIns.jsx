@@ -312,15 +312,8 @@ const AllCheckIns = () => {
         ) : (
           <div className="w-full p-8 flex flex-col justify-center items-center gap-4">
             <span className="text-lg uppercase font-black animate-pulse">
-              You have no check-ins yet.
+              No check-ins yet.
             </span>
-            <Button
-              variant={"secondary"}
-              className={"rounded-full text-xs px-8 py-5 uppercase"}
-              onClick={() => navigateTo("/reservation")}
-            >
-              Check In
-            </Button>
           </div>
         )}
       </div>

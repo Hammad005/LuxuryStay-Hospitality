@@ -133,7 +133,7 @@ const DiscoverRooms = () => {
   const navigateTo = useNavigate();
   return (
     <>
-      <div className="p-4 md:p-16 flex flex-col items-center justify-center min-h-screen z-10">
+      <div className="p-4 md:p-16 w-full flex flex-col items-center justify-center min-h-screen z-10">
         <motion.h1
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -164,6 +164,7 @@ const DiscoverRooms = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.5, delay: index * 0.2 }}
+              className="w-full"
             >
               <Card
                 className={`my-6 bg-transparent border-primary shadow-2xl shadow-secondary/50 w-full p-0 gap-0 flex flex-col md:flex-row ${
@@ -186,19 +187,19 @@ const DiscoverRooms = () => {
                 </div>
 
                 {/* Content Section */}
-                <div className="flex flex-col items-center justify-center py-10 px-4 rounded-b-xl md:rounded-none md:rounded-r-xl text-center md:w-1/2">
+                <div className="flex flex-col items-center justify-center py-10  rounded-b-xl md:rounded-none md:rounded-r-xl text-center md:w-1/2">
                   <h2 className="text-4xl font-serif text-primary font-bold">
                     {room.name}
                   </h2>
-                  <p className="text-sm text-white mt-2 px-2 md:w-1/2">
+                  <p className="text-sm text-white mt-2 px-2">
                     {room.description}
                   </p>
 
                   <h2 className="text-xl font-serif text-primary font-bold mt-6">
                     In-Room Amenities
                   </h2>
-                  <div className="flex mt-3 flex-wrap justify-center items-center md:px-12 md:py-6 p-3 bg-secondary rounded">
-                    <Carousel className={"max-w-xs"}>
+                  <div className="flex mt-3 flex-wrap justify-center items-center lg:px-12 md:py-6 sm:p-0 p-3  bg-secondary rounded">
+                    <Carousel className={"max-w-[17rem] lg:max-w-xs"}>
                       <CarouselContent>
                         {room.amenities.map((amenity, i) => (
                           <CarouselItem key={i} className="basis-1/3">
@@ -211,8 +212,8 @@ const DiscoverRooms = () => {
                           </CarouselItem>
                         ))}
                       </CarouselContent>
-                      <CarouselPrevious className="absolute translate-x-2 md:flex hidden bg-transparent shadow-none hover:bg-transparent hover:text-primary text-primary border-0" />
-                      <CarouselNext className="absolute -translate-x-2 md:flex hidden bg-transparent shadow-none hover:bg-transparent hover:text-primary text-primary border-0" />
+                      <CarouselPrevious className="absolute translate-x-2 lg:flex hidden bg-transparent shadow-none hover:bg-transparent hover:text-primary text-primary border-0" />
+                      <CarouselNext className="absolute -translate-x-2 lg:flex hidden bg-transparent shadow-none hover:bg-transparent hover:text-primary text-primary border-0" />
                     </Carousel>
                   </div>
 

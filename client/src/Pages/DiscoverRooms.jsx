@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import standard from "../assets/rooms/standard.jpg";
-import premium from "../assets/rooms/premium.jpg";
+import premium from "../assets/rooms/Premium.jpg";
 import suite from "../assets/rooms/suite.jpg";
 import business from "../assets/rooms/Business-Oriented.png";
 import { Card } from "@/components/ui/card";

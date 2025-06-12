@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { roomStore } from "@/store/roomStore";
 import standard from "../assets/rooms/standard.jpg";
-import premium from "../assets/rooms/premium.jpg";
+import premium from "../assets/rooms/Premium.jpg";
 import suite from "../assets/rooms/suite.jpg";
 import business from "../assets/rooms/Business-Oriented.png";
 import { Input } from "@/components/ui/input";

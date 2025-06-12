@@ -312,9 +312,11 @@ const MyCheckIns = () => {
                                         <div className="flex items-center justify-between border-b">
                                           <span className="font-medium">
                                             Services:
-                                            <span className="text-xs pl-1 text-red-600">
+                                            {getServicesTotal(
+                                              checkIn?.servicesUsed
+                                            ) > 0 && <span className="text-xs pl-1 text-red-600">
                                               (Unpaid)
-                                            </span>
+                                            </span>}
                                           </span>{" "}
                                           <span>
                                             <span className="text-sm pr-1 text-primary">

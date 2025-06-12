@@ -83,40 +83,55 @@ const CheckOutForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const newErrors = {};
+    if (checkInData?.servicesUsed.length > 0) {
+      const newErrors = {};
 
-    if (!cardData.cardNumber) {
-      newErrors.cardNumber = "Card number is required.";
-    } else if (cardData.cardNumber.length < 19) {
-      newErrors.cardNumber = "Please enter a valid card number.";
-    }
-
-    if (!cardData.monthYear) {
-      newErrors.monthYear = "Month and year is required.";
-    } else if (cardData.monthYear.length < 5) {
-      newErrors.monthYear = "Please enter a valid month and year.";
-    }
-
-    if (!cardData.securityCode) {
-      newErrors.securityCode = "Security code is required.";
-    } else if (cardData.securityCode.length < 3) {
-      newErrors.securityCode = "Please enter a valid security code.";
-    }
-    setErrors(newErrors);
-
-    if (Object.keys(newErrors).length === 0) {
-      const response = await createCheckOut({
-        _id: checkInData?._id,
-        numberOfGuests: checkInData?.numberOfGuests,
-        checkIn: checkInData?.createdAt,
-        roomsId: checkInData?.roomsId,
-        servicesUsed: checkInData?.servicesUsed,
-        totalAmount: checkInData?.totalAmount,
-      });
-      if (response?.success) {
-        navigateTo("/guestDetails/My-CheckIns");
-        resetSuccess();
+      if (!cardData.cardNumber) {
+        newErrors.cardNumber = "Card number is required.";
+      } else if (cardData.cardNumber.length < 19) {
+        newErrors.cardNumber = "Please enter a valid card number.";
       }
+
+      if (!cardData.monthYear) {
+        newErrors.monthYear = "Month and year is required.";
+      } else if (cardData.monthYear.length < 5) {
+        newErrors.monthYear = "Please enter a valid month and year.";
+      }
+
+      if (!cardData.securityCode) {
+        newErrors.securityCode = "Security code is required.";
+      } else if (cardData.securityCode.length < 3) {
+        newErrors.securityCode = "Please enter a valid security code.";
+      }
+      setErrors(newErrors);
+
+      if (Object.keys(newErrors).length === 0) {
+        const response = await createCheckOut({
+          _id: checkInData?._id,
+          numberOfGuests: checkInData?.numberOfGuests,
+          checkIn: checkInData?.createdAt,
+          roomsId: checkInData?.roomsId,
+          servicesUsed: checkInData?.servicesUsed,
+          totalAmount: checkInData?.totalAmount,
+        });
+        if (response?.success) {
+          navigateTo("/guestDetails/My-CheckIns");
+          resetSuccess();
+        }
+      }
+    }else {
+      const response = await createCheckOut({
+          _id: checkInData?._id,
+          numberOfGuests: checkInData?.numberOfGuests,
+          checkIn: checkInData?.createdAt,
+          roomsId: checkInData?.roomsId,
+          servicesUsed: checkInData?.servicesUsed,
+          totalAmount: checkInData?.totalAmount,
+        });
+        if (response?.success) {
+          navigateTo("/guestDetails/My-CheckIns");
+          resetSuccess();
+        }
     }
   };
   return (
@@ -157,7 +172,10 @@ const CheckOutForm = () => {
             <div className="flex justify-between items-center">
               <h3 className="text-base font-semibold">Check In:</h3>
               <p className="text-primary text-sm md:text-base">
-                {format(new Date(checkInData?.createdAt), "dd-MM-yyyy / hh:mm aa")}
+                {format(
+                  new Date(checkInData?.createdAt),
+                  "dd-MM-yyyy / hh:mm aa"
+                )}
               </p>
             </div>
             <div className="flex justify-between items-center">
@@ -325,101 +343,106 @@ const CheckOutForm = () => {
 
             <form onSubmit={handleSubmit}>
               <div className="flex flex-col gap-2 w-full">
-                <h3 className="font-bold  mb-1 text-base">
-                  Enter your card details:
-                </h3>
-                <div className="relative flex items-center gap-2">
-                  <Input
-                    type="text"
-                    className="w-full pl-10"
-                    placeholder="Card Number"
-                    value={cardData.cardNumber}
-                    onChange={(e) => {
-                      let val = e.target.value.replace(/[^0-9]/g, ""); // keep digits only
-                      val = val.substring(0, 16); // max 16 digits
-                      let formatted = val.match(/.{1,4}/g)?.join("-") || ""; // group into chunks of 4
-                      setCardData({
-                        ...cardData,
-                        cardNumber: formatted,
-                      });
-                    }}
-                  />
-                  <Info
-                    className="cursor-pointer text-muted-foreground hover:text-primary"
-                    onClick={() =>
-                      toast.info("Accepted Cards: Visa, Mastercard, Amex")
-                    }
-                  />
-                  <div className="absolute top-2 left-2">
-                    <CreditCard className="text-muted-foreground" />
-                  </div>
-                </div>
-                {errors.cardNumber && (
-                  <p className="text-red-600 text-xs flex gap-1 items-center font-semibold">
-                    <Info className="size-[0.75rem]" /> {errors.cardNumber}
-                  </p>
-                )}
-                <div className="flex items-center gap-2">
-                  <div className="flex flex-col gap-1 w-full">
-                    <Input
-                      type="text"
-                      className="w-full"
-                      placeholder="MM/YY"
-                      maxLength={5}
-                      value={cardData.monthYear}
-                      onChange={(e) => {
-                        let val = e.target.value.replace(/[^0-9]/g, ""); // remove non-digits
-                        if (val.length >= 3) {
-                          val = val.slice(0, 2) + "/" + val.slice(2, 4);
-                        }
-                        setCardData({
-                          ...cardData,
-                          monthYear: val,
-                        });
-                      }}
-                    />
-                    {errors.monthYear && (
-                      <p className="text-red-600 text-xs flex gap-1 items-center font-semibold">
-                        <Info className="size-[0.75rem]" /> {errors.monthYear}
-                      </p>
-                    )}
-                  </div>
-
-                  <div className="flex flex-col gap-1 w-full">
-                    <div className="flex items-center justify-between gap-2 w-full">
+                {checkInData?.servicesUsed.length > 0 && (
+                  <>
+                    <h3 className="font-bold  mb-1 text-base">
+                      Enter your card details:
+                    </h3>
+                    <div className="relative flex items-center gap-2">
                       <Input
-                        type="password"
-                        className="w-full"
-                        placeholder="Security Code"
-                        maxLength={3}
-                        value={cardData.securityCode}
+                        type="text"
+                        className="w-full pl-10"
+                        placeholder="Card Number"
+                        value={cardData.cardNumber}
                         onChange={(e) => {
-                          let val = e.target.value.replace(/[^0-9]/g, ""); // remove non-digits
-                          val = val.slice(0, 3);
+                          let val = e.target.value.replace(/[^0-9]/g, ""); // keep digits only
+                          val = val.substring(0, 16); // max 16 digits
+                          let formatted = val.match(/.{1,4}/g)?.join("-") || ""; // group into chunks of 4
                           setCardData({
                             ...cardData,
-                            securityCode: val,
+                            cardNumber: formatted,
                           });
                         }}
                       />
                       <Info
-                        className="cursor-pointer text-muted-foreground hover:text-primary size-6.5"
+                        className="cursor-pointer text-muted-foreground hover:text-primary"
                         onClick={() =>
-                          toast.info(
-                            "The security code is the 3 digits on the back of your card"
-                          )
+                          toast.info("Accepted Cards: Visa, Mastercard, Amex")
                         }
                       />
+                      <div className="absolute top-2 left-2">
+                        <CreditCard className="text-muted-foreground" />
+                      </div>
                     </div>
-
-                    {errors.securityCode && (
+                    {errors.cardNumber && (
                       <p className="text-red-600 text-xs flex gap-1 items-center font-semibold">
-                        <Info className="size-[0.75rem]" />{" "}
-                        {errors.securityCode}
+                        <Info className="size-[0.75rem]" /> {errors.cardNumber}
                       </p>
                     )}
-                  </div>
-                </div>
+                    <div className="flex items-center gap-2">
+                      <div className="flex flex-col gap-1 w-full">
+                        <Input
+                          type="text"
+                          className="w-full"
+                          placeholder="MM/YY"
+                          maxLength={5}
+                          value={cardData.monthYear}
+                          onChange={(e) => {
+                            let val = e.target.value.replace(/[^0-9]/g, ""); // remove non-digits
+                            if (val.length >= 3) {
+                              val = val.slice(0, 2) + "/" + val.slice(2, 4);
+                            }
+                            setCardData({
+                              ...cardData,
+                              monthYear: val,
+                            });
+                          }}
+                        />
+                        {errors.monthYear && (
+                          <p className="text-red-600 text-xs flex gap-1 items-center font-semibold">
+                            <Info className="size-[0.75rem]" />{" "}
+                            {errors.monthYear}
+                          </p>
+                        )}
+                      </div>
+
+                      <div className="flex flex-col gap-1 w-full">
+                        <div className="flex items-center justify-between gap-2 w-full">
+                          <Input
+                            type="password"
+                            className="w-full"
+                            placeholder="Security Code"
+                            maxLength={3}
+                            value={cardData.securityCode}
+                            onChange={(e) => {
+                              let val = e.target.value.replace(/[^0-9]/g, ""); // remove non-digits
+                              val = val.slice(0, 3);
+                              setCardData({
+                                ...cardData,
+                                securityCode: val,
+                              });
+                            }}
+                          />
+                          <Info
+                            className="cursor-pointer text-muted-foreground hover:text-primary size-6.5"
+                            onClick={() =>
+                              toast.info(
+                                "The security code is the 3 digits on the back of your card"
+                              )
+                            }
+                          />
+                        </div>
+
+                        {errors.securityCode && (
+                          <p className="text-red-600 text-xs flex gap-1 items-center font-semibold">
+                            <Info className="size-[0.75rem]" />{" "}
+                            {errors.securityCode}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  </>
+                )}
 
                 <div className="flex justify-center items-center">
                   <Button

@@ -37,10 +37,9 @@ app.use('/api/booking', bookingRoute);
 app.use('/api/checkIn', checkInRoute);
 app.use('/api/checkOut', checkOutRoute);
 
-connectDB().then(() => {
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`)
+    connectDB();
 });
-
+connectDB();
 

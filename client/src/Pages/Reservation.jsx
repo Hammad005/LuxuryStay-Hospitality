@@ -30,7 +30,7 @@ const Reservation = () => {
             </p>
           ))}
         </div>
-        <marquee behavior="scroll" direction="right" scrollamount="10" className="text-sm font-bold text-primary/80 mt-4">
+        <marquee behavior="scroll" direction="left" scrollamount="10" className="text-sm font-bold text-primary/80 mt-4">
   Please note: No refunds will be allowed before or after check-in. All bookings are final.
 </marquee>
 

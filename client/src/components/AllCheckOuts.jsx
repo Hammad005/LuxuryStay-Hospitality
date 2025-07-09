@@ -104,6 +104,7 @@ const AllCheckOuts = () => {
                   onSelect={(date) =>
                     setCheckOutDate(date ? new Date(date) : null)
                   }
+                  disabled={checkOutDate}
                   initialFocus
                 />
               </PopoverContent>

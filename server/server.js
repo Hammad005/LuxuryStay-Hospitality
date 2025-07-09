@@ -27,7 +27,7 @@ app.use(
   })
 );
 
-app.use('/api/Auth', authRoute);
+app.use('/api/auth', authRoute);
 app.use('/api/staffAuth', staffRoute);
 app.use('/api/guest', guestRoute);
 app.use('/api/room', roomRoute);

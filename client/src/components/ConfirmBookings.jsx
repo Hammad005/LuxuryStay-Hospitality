@@ -112,6 +112,7 @@ const ConfirmBookings = () => {
                   onSelect={(date) =>
                     setCheckInDate(date ? new Date(date) : null)
                   }
+                  disabled={checkInDate}
                   initialFocus
                 />
               </PopoverContent>

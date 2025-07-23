@@ -1,5 +1,7 @@
 # 🏨 LuxuryStay Hospitality - Hotel Management System (HMS)
 
+![Demo App](/client/src/assets/banner.jpg)
+
 **LuxuryStay Hospitality** is a premium hotel chain known for its exceptional service and luxurious accommodations. With properties in multiple locations, LuxuryStay is introducing a modern, scalable, and user-friendly **Hotel Management System (HMS)** to revolutionize its operational efficiency.
 
 This HMS aims to streamline workflows, elevate guest experiences, and enable smarter, data-driven decision-making across all hotel branches.
